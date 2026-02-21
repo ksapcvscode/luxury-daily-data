@@ -1,0 +1,71 @@
+HOW TO DEPLOY IN 5 MINUTES:
+
+1. SAVE THE FILES:
+   - Save checkout.html as "index.html"
+   - Save backend.php as "api.php"
+
+2. UPLOAD TO YOUR WEBSITE:
+   Upload both files to your website root folder:
+   /public_html/
+     ├── index.html    (the checkout page)
+     └── api.php       (backend processor)
+
+3. CONFIGURE:
+   - Open index.html in a text editor
+   - Change these lines if needed:
+     Line 142: const CALLBACK_URL = "https://YOURDOMAIN.com/api.php";
+     Line 143: const EMBED_URL = "https://store.pesapal.com/embed-code?pageUrl=https://store.pesapal.com/luxurydailydata";
+
+4. TEST IMMEDIATELY:
+   - Visit: https://yourdomain.com/
+   - Select a product
+   - Enter phone: 256712345678
+   - Click "Pay Now"
+
+5. FIX NETWORK ERRORS:
+   If you see "Network error: Failed to fetch":
+   
+   SOLUTION A: Use relative path in index.html:
+     Change line 117: const response = await fetch('/api.php', {
+   
+   SOLUTION B: Add .htaccess file:
+     Create .htaccess with:
+     ```
+     Header set Access-Control-Allow-Origin "*"
+     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+     Header set Access-Control-Allow-Headers "Content-Type"
+     ```
+
+   SOLUTION C: Use free hosting:
+     - Upload to Netlify.com (drag and drop)
+     - Upload to 000webhost.com (free)
+     - Upload to GitHub Pages
+
+6. LIVE TESTING:
+   - Test with real phone number
+   - Use small amount (1000 UGX)
+   - Check if prompt arrives on phone
+
+7. CONTACT PESAPAL FOR LIVE CREDENTIALS:
+   Email: support.ug@pesapal.com
+   Phone: +256 417 100 600
+   WhatsApp: +256 752 222 180
+
+   Ask for: "Live API credentials for mobile money STK Push"
+
+8. TROUBLESHOOTING:
+   Error: "Failed to fetch"
+     - Make sure your site has HTTPS
+     - Check file permissions (644 for files, 755 for folders)
+     - Try opening browser console (F12) for detailed errors
+
+   Error: "Invalid token"
+     - Contact PesaPal for new token
+     - Use embed URL as fallback
+
+9. URGENT FIX - USE EMBED IMMEDIATELY:
+   If nothing works, just add this to your site:
+   
+   ```html
+   <iframe src="https://store.pesapal.com/embed-code?pageUrl=https://store.pesapal.com/luxurydailydata" 
+           width="100%" height="600" style="border:none;"></iframe>

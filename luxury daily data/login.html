@@ -1,0 +1,451 @@
+ <!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CONNECT TO LUXURY DAILY DATA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-type-selector {
+            display: flex;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 5px;
+        }
+        
+        .login-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .login-tab.active {
+            background: rgba(212, 175, 55, 0.3);
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .login-form {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .login-form.active {
+            display: block;
+        }
+        
+        .voucher-note {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 6px;
+        }
+        
+        /* Local logo styling */
+        .local-logo {
+            max-width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+            animation: logoFloat 6s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+        
+        .voucher-icon {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 2;
+            pointer-events: none;
+            filter: brightness(0) invert(1);
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.02); }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            border-top-color: #D4AF37;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- two other colors
+
+<body class="lite">
+<body class="dark">
+
+-->
+
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+        
+        function doVoucherLogin() {
+            document.sendin.username.value = document.voucherLogin.voucher.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.voucherLogin.voucher.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+        
+        function switchLogin(type) {
+            // Update tabs
+            document.querySelectorAll('.login-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.login-tab[data-type="${type}"]`).classList.add('active');
+            
+            // Update forms
+            document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
+            document.getElementById(`${type}-form`).classList.add('active');
+        }
+        
+        // Initialize with member login
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLogin('member');
+        });
+
+    </script>
+    $(endif)
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Logo with LOCAL image path -->
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <img src="img/logo.png" alt="LUXURY DAILY DATA" class="local-logo">
+                    <div style="color: #fff; text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">LUXURY DAILY DATA</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Premium WiFi Connectivity</div>
+                    </div>
+                </div>
+
+
+                <!-- Login Type Selector - BUY DATA TAB ADDED -->
+                <div class="login-type-selector">
+                    <div class="login-tab active" data-type="member" onclick="switchLogin('member')">
+                        MEMBER 
+                    </div>
+                    <div class="login-tab" data-type="voucher" onclick="switchLogin('voucher')">
+                        VOUCHER
+                    </div>
+                    <div class="login-tab" data-type="buy" onclick="switchLogin('buy')">
+                        BUY NOW
+                    </div>
+                </div>
+
+                <!-- Member Login Form -->
+                <form name="login" id="member-form" class="login-form active" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
+                    
+                    <p class="info $(if error)alert$(endif)">
+                        $(if error == "")Member Login - Connect to Premium Network$(endif)
+                        $(if error)$(error)$(endif)
+                    </p>
+                    
+                    <label>
+                        <img class="ico" src="img/user.svg" alt="Username" />
+                        <input name="username" type="text" value="$(username)" placeholder="Enter Username" />
+                    </label>
+
+                    <label>
+                        <img class="ico" src="img/password.svg" alt="Password" />
+                        <input name="password" type="password" placeholder="Enter Password" />
+                    </label>
+
+                    <input type="submit" value="LOGIN AS MEMBER" />
+                </form>
+
+                <!-- Voucher Login Form -->
+                <form name="voucherLogin" id="voucher-form" class="login-form" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doVoucherLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
+                    
+                    <p class="info">
+                        Voucher Login - Use Your Code
+                    </p>
+                    
+                    <label>
+                        <!-- SVG Voucher Icon (no image file needed) -->
+                        <svg class="voucher-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor" d="M20,12a2,2,0,0,0,2-2V6a2,2,0,0,0-2-2H4A2,2,0,0,0,2,6v4a2,2,0,0,0,2,2,2,2,0,0,0-2,2v4a2,2,0,0,0,2,2H20a2,2,0,0,0,2-2V14a2,2,0,0,0-2-2ZM4,6H20v4H18.48a2.5,2.5,0,0,0-4.96,0H4Zm16,12H4V14H5.52a2.5,2.5,0,0,0,4.96,0H20Zm-6.5-6a1,1,0,1,1,1,1A1,1,0,0,1,13.5,12Z"/>
+                        </svg>
+                        <input name="voucher" type="text" placeholder="Enter Voucher Code" />
+                    </label>
+
+                    <div class="voucher-note">
+                        Enter your voucher code
+                    </div>
+
+                    <input type="submit" value="USE VOUCHER CODE" />
+                </form>
+                
+                <!-- PESAPAL PAYMENT FORM -->
+<div id="buy-form" class="login-form">
+    <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-top: 20px; border: 1px solid rgba(212,175,55,0.2);">
+        <div style="background: linear-gradient(135deg, #D4AF37 0%, #8B7500 100%); color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+            <h1 style="font-size: 18px; margin-bottom: 5px; color: #000;">💳 Buy Package</h1>
+            <p style="opacity: 0.9; color: #fff; font-size: 12px;">Select package & pay with Mobile Money</p>
+        </div>
+        
+        <!-- Package Selection - Single Line -->
+        <div style="margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px;">
+            <div style="color: #fff; font-size: 14px; margin-bottom: 10px; font-weight: 500;">Select Package:</div>
+            <div style="display: flex; gap: 8px; min-width: max-content;">
+                <button class="package-btn" onclick="selectPackage(1000, '24 Hours')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">24 HOURS</div>
+                    <div style="margin-top: 3px; font-size: 10px;">1,000 UGX</div>
+                </button>
+                <button class="package-btn" onclick="selectPackage(2000, '48 Hours')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">48 HOURS</div>
+                    <div style="margin-top: 3px; font-size: 10px;">2,000 UGX</div>
+                </button>
+                <button class="package-btn" onclick="selectPackage(2,500, '3 Days')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">3 DAYS</div>
+                    <div style="margin-top: 3px; font-size: 10px;">2,500 UGX</div>
+                </button>
+                <button class="package-btn" onclick="selectPackage(7000, '1 Week')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">1 WEEK</div>
+                    <div style="margin-top: 3px; font-size: 10px;">5,000 UGX</div>
+                </button>
+                <button class="package-btn" onclick="selectPackage(13000, '2 Weeks')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">2 WEEKS</div>
+                    <div style="margin-top: 3px; font-size: 10px;">13,000 UGX</div>
+                </button>
+                <button class="package-btn" onclick="selectPackage(15000, '1 Month')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">1 MONTH</div>
+                    <div style="margin-top: 3px; font-size: 10px;">15,000 UGX</div>
+                </button>
+                <button class="package-btn" onclick="selectPackage(45000, '2 Months')" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; color: #fff; font-size: 11px; min-width: 80px; white-space: nowrap;">
+                    <div style="font-weight: bold; color: #D4AF37;">2 MONTHS</div>
+                    <div style="margin-top: 3px; font-size: 10px;">45,000 UGX</div>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Selected Package Display -->
+        <div id="selectedPackageDisplay" style="display: none; background: rgba(212,175,55,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(212,175,55,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: bold; color: #fff; font-size: 14px;" id="selectedPackageName"></div>
+                    <div style="color: #D4AF37; font-size: 16px; font-weight: bold;" id="selectedPackagePrice"></div>
+                </div>
+                <button onclick="deselectPackage()" style="background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 12px;">✕</button>
+            </div>
+        </div>
+        
+        <!-- Pay Button -->
+        <div style="text-align: center;">
+            <button id="payButton" onclick="showPaymentFrame()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 20px; width: 100%; max-width: 200px;" disabled>
+                <span>💰</span>
+                <span>Pay with PesaPal</span>
+            </button>
+            
+            <div class="loading" id="loading" style="display: none; text-align: center; padding: 10px;">
+                <div class="loader" style="border: 2px solid #f3f3f3; border-top: 2px solid #4CAF50; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: 0 auto 8px;"></div>
+                <p style="color: rgba(255,255,255,0.8); font-size: 12px;">Redirecting to MTN,AIRTEL...</p>
+            </div>
+        </div>
+        
+        <!-- Payment Frame -->
+        <div class="payment-frame-container" id="paymentFrameContainer" style="display: none; margin-top: 15px;">
+            <div class="payment-frame-wrapper" style="border: 1px solid rgba(212,175,55,0.3); border-radius: 6px; overflow: hidden;">
+                <iframe 
+                    class="payment-frame" 
+                    src="https://store.pesapal.com/luxurydailydata" 
+                    frameborder="0" 
+                    allowfullscreen
+                    title="PesaPal Payment"
+                    id="paymentFrame"
+                    style="width: 100%; height: 500px; border: none; display: block;">
+                </iframe>
+            </div>
+            
+            <div class="security-badge" style="display: flex; align-items: center; justify-content: center; gap: 5px; padding: 8px; background: rgba(212,175,55,0.1); border-radius: 4px; margin-top: 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 11px; color: #D4AF37;">
+                <span>🔒</span>
+                <span>Secure PesaPal Payment Gateway</span>
+            </div>
+        </div>
+        
+        <!-- Package Pricing Table -->
+        <div style="background: rgba(0,0,0,0.2); border-radius: 6px; padding: 12px; margin-top: 15px;">
+            <div style="color: #D4AF37; font-weight: bold; font-size: 12px; margin-bottom: 8px; text-align: center;">Package Pricing</div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; font-size: 10px;">
+                <div style="color: rgba(255,255,255,0.8);">24 Hours: <span style="color: #D4AF37; float: right;">1,000 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">48 Hours: <span style="color: #D4AF37; float: right;">2,000 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">3 Days: <span style="color: #D4AF37; float: right;">2,500 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">1 Week: <span style="color: #D4AF37; float: right;">5,000 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">2 Weeks: <span style="color: #D4AF37; float: right;">13,000 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">1 Month: <span style="color: #D4AF37; float: right;">25,000 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">2 Months: <span style="color: #D4AF37; float: right;">45,000 UGX</span></div>
+                <div style="color: rgba(255,255,255,0.8);">Per Day: <span style="color: #D4AF37; float: right;">~42 UGX</span></div>
+            </div>
+        </div>
+        
+        <!-- Footer Note -->
+        <div style="text-align: center; margin-top: 15px; color: rgba(255,255,255,0.6); font-size: 11px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px;">
+            <p>Instant activation after successful payment • Better value on longer packages</p>
+        </div>
+    </div>
+</div>
+
+<!-- Keep the same JavaScript functions as before -->
+<script>
+let selectedPackage = null;
+let selectedAmount = 0;
+let selectedPackageName = "";
+
+function selectPackage(amount, name) {
+    // Reset all buttons
+    document.querySelectorAll('.package-btn').forEach(btn => {
+        btn.style.background = 'rgba(0,0,0,0.3)';
+        btn.style.borderColor = 'rgba(212,175,55,0.2)';
+    });
+    
+    // Highlight selected button
+    event.currentTarget.style.background = 'rgba(212,175,55,0.2)';
+    event.currentTarget.style.borderColor = '#D4AF37';
+    
+    // Store selection
+    selectedPackage = event.currentTarget;
+    selectedAmount = amount;
+    selectedPackageName = name;
+    
+    // Show selected package display
+    document.getElementById('selectedPackageName').textContent = name + " Package";
+    document.getElementById('selectedPackagePrice').textContent = amount.toLocaleString() + " UGX";
+    document.getElementById('selectedPackageDisplay').style.display = 'block';
+    
+    // Enable pay button
+    document.getElementById('payButton').disabled = false;
+    document.getElementById('payButton').style.opacity = '1';
+    document.getElementById('payButton').style.cursor = 'pointer';
+}
+
+function deselectPackage() {
+    if (selectedPackage) {
+        selectedPackage.style.background = 'rgba(0,0,0,0.3)';
+        selectedPackage.style.borderColor = 'rgba(212,175,55,0.2)';
+    }
+    
+    selectedPackage = null;
+    selectedAmount = 0;
+    selectedPackageName = "";
+    
+    // Hide selected package display
+    document.getElementById('selectedPackageDisplay').style.display = 'none';
+    
+    // Disable pay button
+    document.getElementById('payButton').disabled = true;
+    document.getElementById('payButton').style.opacity = '0.6';
+    document.getElementById('payButton').style.cursor = 'not-allowed';
+}
+
+function showPaymentFrame() {
+    if (!selectedAmount) {
+        alert("Please select a package first");
+        return;
+    }
+    
+    const payButton = document.getElementById('payButton');
+    const loading = document.getElementById('loading');
+    const paymentFrameContainer = document.getElementById('paymentFrameContainer');
+    const paymentFrame = document.getElementById('paymentFrame');
+    
+    payButton.style.display = 'none';
+    loading.style.display = 'block';
+    
+    setTimeout(() => {
+        loading.style.display = 'none';
+        paymentFrameContainer.style.display = 'block';
+        
+        // Scroll to payment frame
+        paymentFrameContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }, 1000);
+}
+
+// Initialize pay button as disabled
+document.addEventListener('DOMContentLoaded', function() {
+    const payButton = document.getElementById('payButton');
+    payButton.style.opacity = '0.6';
+    payButton.style.cursor = 'not-allowed';
+});
+
+// Add CSS animation for loader
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+                <!-- CEO Badge -->
+                <div style="text-align: center; margin: 20px 0 10px 0; padding: 10px; background: rgba(212,175,55,0.1); border-radius: 8px;">
+                    <div style="color: #D4AF37; font-size: 14px; font-weight: bold;">
+                        BY ABDUL KSA NETWORK
+                    </div>
+                    <div style="color: rgba(255,255,255,0.8); font-size: 12px;">
+                        Premium Internet Provider
+                    </div>
+                </div>
+                
+                <!-- Movies Link -->
+                <div style="text-align: center; margin: 10px 0;">
+                    <a href="https://ssabasaba.blogspot.com" target="_blank" 
+                       style="color: #D4AF37; text-decoration: none; font-size: 12px; font-weight: bold;">
+                        🎬 Watch Free Movies Online
+                    </a>
+                </div>
+                
+                <p class="info bt">POWERED BY LUXURY DAILY DATA</p>
+               
+            </div>
+        </div>
+    </div>
+</body>
+</html>
